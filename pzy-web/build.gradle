@@ -11,7 +11,7 @@ project.tasks.publish.dependsOn bootJar
 
 dependencies {
     implementation project(":pzy-repository")
-    runtimeOnly group: 'com.h2database', name: 'h2', version: '1.4.200'
+    runtimeOnly "com.h2database:h2:${h2Version}"
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}"
