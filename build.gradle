@@ -1,0 +1,93 @@
+buildscript {
+    repositories {
+        // 自定义仓库
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        // gradle插件仓库
+        gradlePluginPortal()
+        // maven中央仓库
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+configurations {
+    all {
+        resolutionStrategy {
+            // 设置当版本冲突时,使项目构建失败
+            failOnVersionConflict()
+        }
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'maven-publish'
+
+    sourceCompatibility = 1.8
+    compileJava.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
+    //打包源码
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allJava
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        from javadoc.destinationDir
+    }
+
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+        options.addStringOption('charSet', 'UTF-8')
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = 'localRepo'
+                url = "file://${mavenLocalRepo}"
+            }
+        }
+        publications {
+            maven(MavenPublication) {
+                //指定group/artifact/version信息，可以不填。默认使用项目group/name/version作为groupId/artifactId/version
+                groupId project.group
+                artifactId project.name
+                version project.version
+                //如果是war包填写components.web，如果是jar包填写components.java
+                from components.java
+
+                //配置上传源码
+                artifact sourceJar {
+                    classifier "sources"
+                }
+            }
+        }
+    }
+}
+
+subprojects {
+    repositories {
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'
+        }
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+        testImplementation "com.baomidou:mybatis-plus-generator:${mybatisPlusVersion}"
+        implementation "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+        annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+    }
+
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger - %line - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="io.lettuce" level="Warn"/>
+    <logger name="io.netty" level="Warn"/>
+    <logger name="org.dbunit" level="Warn"/>
+    <logger name="springfox" level="Warn"/>
+    <logger name="org.redisson" level="Warn"/>
+    <logger name="org.springframework" level="Info"/>
+    <logger name="org.springframework.cache" level="Debug"/>
+    <logger name="org.springframework.jdbc.datasource" level="Debug"/>
+    <logger name="org.hibernate" level="Info"/>
+    <!--
+        该类打印的Debug日志类似:
+        com.baomidou.mybatisplus.core.MybatisConfiguration - addMappedStatement: com.pzy.winter.tx.dao.PersonDao.delete
+        com.baomidou.mybatisplus.core.MybatisConfiguration - addMappedStatement: com.pzy.winter.tx.dao.PersonDao.insert
+    -->
+    <logger name="com.baomidou.mybatisplus.core.MybatisConfiguration" level="Warn"/>
+    <logger name="druid.sql.Statement" level="Info"/>
+
+</configuration>

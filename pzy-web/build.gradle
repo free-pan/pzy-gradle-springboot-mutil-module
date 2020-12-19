@@ -1,0 +1,20 @@
+apply plugin: 'io.spring.dependency-management'
+apply plugin: "org.springframework.boot"
+
+configurations {
+    [apiElements, runtimeElements].each {
+        it.outgoing.artifacts.removeIf { it.buildDependencies.getDependencies(null).contains(jar) }
+        it.outgoing.artifact(bootJar)
+    }
+}
+project.tasks.publish.dependsOn bootJar
+
+dependencies {
+    implementation project(":pzy-repository")
+    runtimeOnly group: 'com.h2database', name: 'h2', version: '1.4.200'
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+//    implementation "org.springframework.session:spring-session-data-redis:${springBootVersion}"
+}

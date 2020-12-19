@@ -1,0 +1,9 @@
+dependencies {
+    implementation project(":pzy-model")
+    implementation("com.alibaba:druid-spring-boot-starter:${druidVersion}") {
+        exclude group: "org.springframework.boot", module: "spring-boot-autoconfigure"
+    }
+    runtimeOnly "mysql:mysql-connector-java:${mysqlConnectorJava}"
+    implementation "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}"
+    implementation "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}"
+}

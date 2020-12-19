@@ -1,0 +1,5 @@
+rootProject.name = 'pzy-gradle-springboot-mutil-module'
+include 'pzy-model'
+include 'pzy-repository'
+include 'pzy-web'
+
