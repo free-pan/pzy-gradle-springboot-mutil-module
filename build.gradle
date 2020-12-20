@@ -61,10 +61,16 @@ allprojects {
                 //如果是war包填写components.web，如果是jar包填写components.java
                 from components.java
 
+                //配置上传javadoc
+                artifact javadocJar {
+                    classifier "javadoc"
+                }
+
                 //配置上传源码
                 artifact sourceJar {
                     classifier "sources"
                 }
+
             }
         }
     }
